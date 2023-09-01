@@ -46,13 +46,13 @@ clean:
 	cd docs && make clean
 
 # PyPi package release
-# release:
-# 	python -m build
-# 	twine upload dist/*
+release:
+	python -m build
+	twine upload dist/*
 
-# # Test PyPi package release
-# test-release:
-# 	python -m build
-# 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+# Test PyPi package release
+test-release:
+	python -m build
+	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 .PHONY: clean spelling doc lint format check-codestyle commit-checks
