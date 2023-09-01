@@ -34,7 +34,7 @@ jobs:
         # cpu version of pytorch
         pip3 install torch --index-url https://download.pytorch.org/whl/cpu
 
-        pip install stable-baselines[tests]
+        pip install stable-baselines3[tests]
         pip install .
 
     - name: Lint with ruff
