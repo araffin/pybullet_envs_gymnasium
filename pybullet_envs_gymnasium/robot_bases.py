@@ -1,4 +1,3 @@
-import inspect
 import os
 
 import gymnasium
@@ -6,10 +5,6 @@ import gymnasium.spaces
 import gymnasium.utils
 import numpy as np
 import pybullet
-
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-os.sys.path.insert(0, parentdir)
 import pybullet_data
 
 

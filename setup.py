@@ -15,7 +15,7 @@ setup(
             "version.txt",
         ]
     },
-    install_requires=["pybullet>=3.2.5"],
+    install_requires=["pybullet>=3.2.5", "gymnasium>=0.28.1,<1.0"],
     extras_require={},
     description="Gymnasium port of pybullet envs",
     author="Antonin Raffin",

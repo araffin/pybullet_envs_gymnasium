@@ -1,8 +1,7 @@
 import numpy as np
 
-from pybullet_envs_gymnasium.robot_pendula import InvertedDoublePendulum, InvertedPendulum, InvertedPendulumSwingup
-
 from pybullet_envs_gymnasium.env_bases import MJCFBaseBulletEnv
+from pybullet_envs_gymnasium.robot_pendula import InvertedDoublePendulum, InvertedPendulum, InvertedPendulumSwingup
 from pybullet_envs_gymnasium.scene_abstract import SingleRobotEmptyScene
 
 
