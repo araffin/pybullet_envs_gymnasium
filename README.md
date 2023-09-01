@@ -1,4 +1,6 @@
-## PyBullet Env compatible with Gymnasium
+![CI](https://github.com/DLR-RM/stable-baselines3/workflows/CI/badge.svg)
+
+## PyBullet Envs compatible with Gymnasium
 
 Install with pip via PyPi: `pip install pybullet_envs_gymnasium`
 

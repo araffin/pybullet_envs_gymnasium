@@ -19,15 +19,20 @@ setup(
     extras_require={},
     description="Gymnasium port of pybullet envs",
     author="Antonin Raffin",
-    url="",
+    url="https://github.com/araffin/pybullet_envs_gymnasium",
     author_email="antonin.raffin@dlr.de",
-    keywords="",
+    keywords="reinforcement-learning-algorithms reinforcement-learning machine-learning "
+    "gymnasium gym openai stable baselines toolbox python data-science",
     license="zlib",
-    long_description="",
+    long_description="Port of pybullet envs to gymnasium ",
     long_description_content_type="text/markdown",
     version=__version__,
     python_requires=">=3.8",
     # PyPI package information.
+    project_urls={
+        "Code": "https://github.com/araffin/pybullet_envs_gymnasium",
+        "Original repo": "https://github.com/bulletphysics/bullet3",
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
