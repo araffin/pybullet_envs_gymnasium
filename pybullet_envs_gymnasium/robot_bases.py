@@ -248,10 +248,15 @@ class Joint:
     def current_position(self):  # just some synonyme method
         return self.get_state()
 
+    def get_mid_point(self):
+        return 0.5 * (self.lowerLimit + self.upperLimit)
+
     def current_relative_position(self):
         pos, vel = self.get_state()
-        pos_mid = 0.5 * (self.lowerLimit + self.upperLimit)
-        return (2 * (pos - pos_mid) / (self.upperLimit - self.lowerLimit), 0.1 * vel)
+        # Pos and vel rescaled to [-1, 1]
+        # Note: limits seems to be wrong for cheetah
+        scaled_pos = 2 * (pos - self.lowerLimit) / (self.upperLimit - self.lowerLimit) - 1.0
+        return scaled_pos, 0.1 * vel
 
     def get_state(self):
         x, vx, _, _ = self._p.getJointState(self.bodies[self.bodyIndex], self.jointIndex)
