@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 import numpy as np
 import pybullet
 
@@ -15,13 +17,21 @@ from pybullet_envs_gymnasium.scene_stadium import SinglePlayerStadiumScene
 
 
 class WalkerBaseBulletEnv(MJCFBaseBulletEnv):
+    # cost for using motors -- this parameter should be carefully tuned against reward
+    # for making progress, other values less improtant
+    electricity_cost = -2.0
+    stall_torque_cost = -0.1  # cost for running electric current through a motor even at zero rotational speed, small
+    foot_collision_cost = -1.0  # touches another leg, or other objects, that cost makes robot avoid smashing feet into itself
+    foot_ground_object_names: ClassVar = set(["floor"])  # to distinguish ground and other objects
+    joints_at_limit_cost = -0.1  # discourage stuck joints
+
     def __init__(self, robot, render_mode=None):
         # print("WalkerBase::__init__ start")
         self.camera_x = 0
         self.walk_target_x = 1e3  # kilometer away
         self.walk_target_y = 0
         self.stateId = -1
-        MJCFBaseBulletEnv.__init__(self, robot, render_mode)
+        MJCFBaseBulletEnv.__init__(self, robot, render_mode=render_mode)
 
     def create_single_player_scene(self, bullet_client):
         self.stadium_scene = SinglePlayerStadiumScene(bullet_client, gravity=9.8, timestep=0.0165 / 4, frame_skip=4)
@@ -62,14 +72,6 @@ class WalkerBaseBulletEnv(MJCFBaseBulletEnv):
             init_x, init_y, init_z
         )  # Works because robot loads around (0,0,0), and some robots have z != 0 that is left intact
         self.cpp_robot.set_pose(pose)
-
-    electricity_cost = (
-        -2.0
-    )  # cost for using motors -- this parameter should be carefully tuned against reward for making progress, other values less improtant
-    stall_torque_cost = -0.1  # cost for running electric current through a motor even at zero rotational speed, small
-    foot_collision_cost = -1.0  # touches another leg, or other objects, that cost makes robot avoid smashing feet into itself
-    foot_ground_object_names = set(["floor"])  # to distinguish ground and other objects
-    joints_at_limit_cost = -0.1  # discourage stuck joints
 
     def step(self, a):
         # if multiplayer, action first applied to all robots,
@@ -143,19 +145,19 @@ class WalkerBaseBulletEnv(MJCFBaseBulletEnv):
 class HopperBulletEnv(WalkerBaseBulletEnv):
     def __init__(self, render_mode=None):
         self.robot = Hopper()
-        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode)
+        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode=render_mode)
 
 
 class Walker2DBulletEnv(WalkerBaseBulletEnv):
     def __init__(self, render_mode=None):
         self.robot = Walker2D()
-        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode)
+        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode=render_mode)
 
 
 class HalfCheetahBulletEnv(WalkerBaseBulletEnv):
     def __init__(self, render_mode=None):
         self.robot = HalfCheetah()
-        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode)
+        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode=render_mode)
 
     def _isDone(self):
         return False
@@ -164,7 +166,7 @@ class HalfCheetahBulletEnv(WalkerBaseBulletEnv):
 class AntBulletEnv(WalkerBaseBulletEnv):
     def __init__(self, render_mode=None):
         self.robot = Ant()
-        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode)
+        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode=render_mode)
 
 
 class HumanoidBulletEnv(WalkerBaseBulletEnv):
@@ -173,7 +175,7 @@ class HumanoidBulletEnv(WalkerBaseBulletEnv):
             self.robot = Humanoid()
         else:
             self.robot = robot
-        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode)
+        WalkerBaseBulletEnv.__init__(self, self.robot, render_mode=render_mode)
         self.electricity_cost = 4.25 * WalkerBaseBulletEnv.electricity_cost
         self.stall_torque_cost = 4.25 * WalkerBaseBulletEnv.stall_torque_cost
 
@@ -183,7 +185,7 @@ class HumanoidFlagrunBulletEnv(HumanoidBulletEnv):
 
     def __init__(self, render_mode=None):
         self.robot = HumanoidFlagrun()
-        HumanoidBulletEnv.__init__(self, self.robot, render_mode)
+        HumanoidBulletEnv.__init__(self, self.robot, render_mode=render_mode)
 
     def create_single_player_scene(self, bullet_client):
         s = HumanoidBulletEnv.create_single_player_scene(self, bullet_client)
@@ -197,7 +199,7 @@ class HumanoidFlagrunHarderBulletEnv(HumanoidBulletEnv):
     def __init__(self, render_mode=None):
         self.robot = HumanoidFlagrunHarder()
         self.electricity_cost /= 4  # don't care that much about electricity, just stand up!
-        HumanoidBulletEnv.__init__(self, self.robot, render_mode)
+        HumanoidBulletEnv.__init__(self, self.robot, render_mode=render_mode)
 
     def create_single_player_scene(self, bullet_client):
         s = HumanoidBulletEnv.create_single_player_scene(self, bullet_client)

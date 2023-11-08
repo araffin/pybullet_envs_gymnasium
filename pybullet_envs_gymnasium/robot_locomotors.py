@@ -1,4 +1,5 @@
 import os
+from typing import ClassVar
 
 import numpy as np
 import pybullet_data
@@ -74,7 +75,8 @@ class WalkerBase(MJCFBasedRobot):
         return np.clip(np.concatenate([more, j, self.feet_contact]), -5, +5)
 
     def calc_potential(self):
-        # progress in potential field is speed*dt, typical speed is about 2-3 meter per second, this potential will change 2-3 per frame (not per second),
+        # progress in potential field is speed*dt, typical speed is about 2-3 meter per second,
+        # this potential will change 2-3 per frame (not per second),
         # all rewards have rew/frame units and close to 1.0
         debugmode = 0
         if debugmode:
@@ -90,7 +92,7 @@ class WalkerBase(MJCFBasedRobot):
 
 
 class Hopper(WalkerBase):
-    foot_list = ["foot"]
+    foot_list: ClassVar = ["foot"]
 
     def __init__(self):
         WalkerBase.__init__(self, "hopper.xml", "torso", action_dim=3, obs_dim=15, power=0.75)
@@ -100,7 +102,7 @@ class Hopper(WalkerBase):
 
 
 class Walker2D(WalkerBase):
-    foot_list = ["foot", "foot_left"]
+    foot_list: ClassVar = ["foot", "foot_left"]
 
     def __init__(self):
         WalkerBase.__init__(self, "walker2d.xml", "torso", action_dim=6, obs_dim=22, power=0.40)
@@ -115,7 +117,7 @@ class Walker2D(WalkerBase):
 
 
 class HalfCheetah(WalkerBase):
-    foot_list = ["ffoot", "fshin", "fthigh", "bfoot", "bshin", "bthigh"]  # track these contacts with ground
+    foot_list: ClassVar = ["ffoot", "fshin", "fthigh", "bfoot", "bshin", "bthigh"]  # track these contacts with ground
 
     def __init__(self):
         WalkerBase.__init__(self, "half_cheetah.xml", "torso", action_dim=6, obs_dim=26, power=0.90)
@@ -143,7 +145,7 @@ class HalfCheetah(WalkerBase):
 
 
 class Ant(WalkerBase):
-    foot_list = ["front_left_foot", "front_right_foot", "left_back_foot", "right_back_foot"]
+    foot_list: ClassVar = ["front_left_foot", "front_right_foot", "left_back_foot", "right_back_foot"]
 
     def __init__(self):
         WalkerBase.__init__(self, "ant.xml", "torso", action_dim=8, obs_dim=28, power=2.5)
@@ -154,7 +156,7 @@ class Ant(WalkerBase):
 
 class Humanoid(WalkerBase):
     self_collision = True
-    foot_list = ["right_foot", "left_foot"]  # "left_hand", "right_hand"
+    foot_list: ClassVar = ["right_foot", "left_foot"]  # "left_hand", "right_hand"
 
     def __init__(self):
         WalkerBase.__init__(self, "humanoid_symmetric.xml", "torso", action_dim=17, obs_dim=44, power=0.41)
@@ -204,9 +206,9 @@ class Humanoid(WalkerBase):
             m.set_motor_torque(float(force_gain * power * self.power * np.clip(a[i], -1, +1)))
 
     def alive_bonus(self, z, pitch):
-        return (
-            +2 if z > 0.78 else -1
-        )  # 2 here because 17 joints produce a lot of electricity cost just from policy noise, living must be better than dying
+        # 2 here because 17 joints produce a lot of electricity cost just from policy noise,
+        # living must be better than dying
+        return +2 if z > 0.78 else -1
 
 
 def get_cube(_p, x, y, z):
