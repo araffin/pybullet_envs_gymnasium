@@ -6,9 +6,9 @@ from pybullet_envs_gymnasium.scene_abstract import SingleRobotEmptyScene
 
 
 class InvertedPendulumBulletEnv(MJCFBaseBulletEnv):
-    def __init__(self):
+    def __init__(self, render_mode=None):
         self.robot = InvertedPendulum()
-        MJCFBaseBulletEnv.__init__(self, self.robot)
+        MJCFBaseBulletEnv.__init__(self, self.robot, render_mode)
         self.stateId = -1
 
     def create_single_player_scene(self, bullet_client):
@@ -43,16 +43,16 @@ class InvertedPendulumBulletEnv(MJCFBaseBulletEnv):
 
 
 class InvertedPendulumSwingupBulletEnv(InvertedPendulumBulletEnv):
-    def __init__(self):
+    def __init__(self, render_mode=None):
         self.robot = InvertedPendulumSwingup()
-        MJCFBaseBulletEnv.__init__(self, self.robot)
+        MJCFBaseBulletEnv.__init__(self, self.robot, render_mode)
         self.stateId = -1
 
 
 class InvertedDoublePendulumBulletEnv(MJCFBaseBulletEnv):
-    def __init__(self):
+    def __init__(self, render_mode=None):
         self.robot = InvertedDoublePendulum()
-        MJCFBaseBulletEnv.__init__(self, self.robot)
+        MJCFBaseBulletEnv.__init__(self, self.robot, render_mode)
         self.stateId = -1
 
     def create_single_player_scene(self, bullet_client):

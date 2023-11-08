@@ -6,9 +6,9 @@ from pybullet_envs_gymnasium.scene_abstract import SingleRobotEmptyScene
 
 
 class ReacherBulletEnv(MJCFBaseBulletEnv):
-    def __init__(self, render=False):
+    def __init__(self, render_mode=None):
         self.robot = Reacher()
-        MJCFBaseBulletEnv.__init__(self, self.robot, render)
+        MJCFBaseBulletEnv.__init__(self, self.robot, render_mode)
 
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=0.0, timestep=0.0165, frame_skip=1)
@@ -41,9 +41,9 @@ class ReacherBulletEnv(MJCFBaseBulletEnv):
 
 
 class PusherBulletEnv(MJCFBaseBulletEnv):
-    def __init__(self, render=False):
+    def __init__(self, render_mode=None):
         self.robot = Pusher()
-        MJCFBaseBulletEnv.__init__(self, self.robot, render)
+        MJCFBaseBulletEnv.__init__(self, self.robot, render_mode)
 
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=9.81, timestep=0.0020, frame_skip=5)
@@ -96,9 +96,9 @@ class PusherBulletEnv(MJCFBaseBulletEnv):
 
 
 class ThrowerBulletEnv(MJCFBaseBulletEnv):
-    def __init__(self, render=False):
+    def __init__(self, render_mode=None):
         self.robot = Thrower()
-        MJCFBaseBulletEnv.__init__(self, self.robot, render)
+        MJCFBaseBulletEnv.__init__(self, self.robot, render_mode)
 
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=0.0, timestep=0.0020, frame_skip=5)

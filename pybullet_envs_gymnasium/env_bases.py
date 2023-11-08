@@ -1,4 +1,6 @@
 import os
+import time
+from typing import ClassVar
 
 import gymnasium
 import gymnasium.spaces
@@ -22,15 +24,15 @@ class MJCFBaseBulletEnv(gymnasium.Env):
     you don't use multiplayer.
     """
 
-    metadata = {"render_modes": ["human", "rgb_array"], "video.frames_per_second": 60}
+    metadata: ClassVar = {"render_modes": ["human", "rgb_array"], "render_fps": 60}  # type: ignore[misc]
 
-    def __init__(self, robot, render=False, render_mode=None):
+    def __init__(self, robot, render_mode=None):
         self.scene = None
         self.physicsClientId = -1
         self.ownsPhysicsClient = 0
         self.camera = Camera(self)
         self.render_mode = render_mode
-        self.isRender = render or render_mode == "human"
+        self.should_render = render_mode == "human"
         self.robot = robot
         self.seed()
         self._cam_dist = 3
@@ -58,7 +60,7 @@ class MJCFBaseBulletEnv(gymnasium.Env):
         if self.physicsClientId < 0:
             self.ownsPhysicsClient = True
 
-            if self.isRender:
+            if self.should_render:
                 self._p = bullet_client.BulletClient(connection_mode=pybullet.GUI)
             else:
                 self._p = bullet_client.BulletClient()
@@ -74,7 +76,7 @@ class MJCFBaseBulletEnv(gymnasium.Env):
                             self._p.loadPlugin(egl.get_filename(), "_eglRendererPlugin")
                         else:
                             self._p.loadPlugin("eglRendererPlugin")
-            except:
+            except Exception:
                 pass
             self.physicsClientId = self._p._client
             self._p.configureDebugVisualizer(pybullet.COV_ENABLE_GUI, 0)
@@ -96,14 +98,15 @@ class MJCFBaseBulletEnv(gymnasium.Env):
     def camera_adjust(self):
         pass
 
-    def render(self, mode="human", close=False):
-        if mode == "human":
-            self.isRender = True
+    def render(self):
+        if self.render_mode == "human":
+            self.should_render = True
         if self.physicsClientId >= 0:
             self.camera_adjust()
 
-        if mode != "rgb_array":
-            return np.array([])
+        if self.render_mode != "rgb_array":
+            time.sleep(1 / self.metadata["render_fps"])
+            return
 
         base_pos = [0, 0, 0]
         if hasattr(self, "robot"):
