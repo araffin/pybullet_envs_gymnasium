@@ -71,10 +71,10 @@ class XmlBasedRobot:
                 part_name = part_name.decode("utf8")
 
                 if dump:
-                    print("ROBOT PART '%s'" % part_name)
+                    print(f"ROBOT PART '{part_name}'")
                 if dump:
                     print(
-                        "ROBOT JOINT '%s'" % joint_name
+                        f"ROBOT JOINT '{joint_name}'"
                     )  # limits = %+0.2f..%+0.2f effort=%0.3f speed=%0.3f" % ((joint_name,) + j.limits()) )
 
                 parts[part_name] = BodyPart(self._p, part_name, bodies, i, j)
