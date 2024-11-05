@@ -38,7 +38,7 @@ jobs:
           uv pip install --system torch==2.3.1+cpu --index https://download.pytorch.org/whl/cpu
 
           uv pip install --system "stable-baselines3[tests]>=2.4.0a11"
-          uv pip install --system install .
+          uv pip install --system .
 
       - name: Lint with ruff
         run: |
