@@ -15,7 +15,7 @@ setup(
             "version.txt",
         ]
     },
-    install_requires=["pybullet>=3.2.5", "gymnasium>=0.29.1,<1.1.0"],
+    install_requires=["pybullet>=3.2.5", "gymnasium>=0.29.1,<2.0"],
     extras_require={},
     description="Gymnasium port of pybullet envs",
     author="Antonin Raffin",
@@ -27,7 +27,7 @@ setup(
     long_description="Port of pybullet envs to gymnasium ",
     long_description_content_type="text/markdown",
     version=__version__,
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     # PyPI package information.
     project_urls={
         "Code": "https://github.com/araffin/pybullet_envs_gymnasium",
@@ -35,7 +35,6 @@ setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

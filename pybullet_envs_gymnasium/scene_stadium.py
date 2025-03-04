@@ -39,6 +39,7 @@ class StadiumScene(Scene):
 
 class SinglePlayerStadiumScene(StadiumScene):
     "This scene created by environment, to work in a way as if there was no concept of scene visible to user."
+
     multiplayer = False
 
 
